@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Claratyst — Find Your Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#04080f;--surface:rgba(255,255,255,0.022);--border:rgba(255,255,255,0.042);
+    --cyan:#00e5ff;--violet:#8b5cf6;--gold:#f0c040;
+    --text:#ddeeff;--muted:#7a9bbf;
+    --heading:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;scroll-behavior:smooth;}
+  body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:0.8;}
+  .wrap{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;}
+
+  /* NAV */
+  header{display:flex;align-items:center;justify-content:space-between;padding:20px 44px;backdrop-filter:blur(16px) saturate(150%);background:linear-gradient(180deg,rgba(4,8,15,0.9),rgba(4,8,15,0.6));border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+  .brand{display:flex;gap:12px;align-items:center;text-decoration:none;}
+  .logo-mark{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-family:var(--heading);font-weight:800;font-size:18px;color:#020810;box-shadow:0 0 24px rgba(0,229,255,0.2);flex-shrink:0;}
+  .brand-name{font-family:var(--heading);font-weight:800;font-size:17px;letter-spacing:-0.3px;}
+  .brand-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+  nav{display:flex;gap:6px;align-items:center;}
+  nav a{color:rgba(221,238,255,0.75);text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .18s;}
+  nav a:hover{color:#fff;background:rgba(255,255,255,0.04);}
+  .btn{padding:10px 20px;border-radius:10px;border:none;cursor:pointer;font-family:var(--body);font-weight:600;font-size:14px;transition:all .2s;}
+  .btn-primary{background:linear-gradient(90deg,var(--cyan),var(--violet));color:#020810;box-shadow:0 8px 30px rgba(139,92,246,0.2);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,229,255,0.24);}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:rgba(0,229,255,0.25);background:rgba(0,229,255,0.04);}
+
+  /* HERO */
+  .hero{padding:110px 24px 90px;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .hero-inner{max-width:820px;width:100%;}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:32px;letter-spacing:1px;text-transform:uppercase;}
+  .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse-dot 2s infinite;}
+  @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  h1{font-family:var(--heading);font-size:clamp(44px,7.5vw,82px);font-weight:800;line-height:1.0;letter-spacing:-2.5px;}
+  .h1-plain{color:var(--text);display:block;}
+  .h1-grad{display:block;background:linear-gradient(90deg,var(--cyan) 0%,#a78bfa 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:6px;}
+  .hero-sub{color:var(--muted);font-size:18px;line-height:1.75;max-width:600px;margin:28px auto 40px;}
+  .hero-sub strong{color:var(--text);font-weight:500;}
+  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* TRUTH STRIP */
+  .truth-wrap{padding:0 24px 70px;max-width:1080px;margin:0 auto;}
+  .truth-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:18px;overflow:hidden;}
+  .truth-item{background:var(--bg);padding:36px 28px;text-align:center;transition:background .3s;}
+  .truth-item:hover{background:rgba(0,229,255,0.025);}
+  .truth-num{font-family:var(--heading);font-size:44px;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;}
+  .truth-label{color:var(--muted);font-size:14px;line-height:1.5;}
+
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);margin:0 40px;}
+
+  /* FEELS */
+  .feels-section{padding:80px 24px;max-width:760px;margin:0 auto;text-align:center;}
+  .section-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
+  .feels-lines{display:flex;flex-direction:column;gap:0;text-align:left;}
+  .feels-line{padding:22px 24px;border-bottom:1px solid var(--border);font-family:var(--heading);font-size:clamp(16px,2.2vw,22px);font-weight:700;letter-spacing:-0.3px;color:rgba(221,238,255,0.3);transition:color .4s;cursor:default;position:relative;}
+  .feels-line:hover{color:var(--text);}
+  .feels-accent{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--violet));opacity:0;transition:opacity .4s;}
+  .feels-line:hover .feels-accent{opacity:1;}
+
+  /* SECTION */
+  .section{padding:80px 24px;max-width:1080px;margin:0 auto;}
+  .section-title{font-family:var(--heading);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:52px;line-height:1.1;}
+  .section-title span{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* FEATURES */
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s cubic-bezier(.2,.9,.2,1);position:relative;overflow:hidden;}
+  .feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,0.04),transparent 60%);opacity:0;transition:opacity .3s;}
+  .feature-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,0.12);}
+  .feature-card:hover::before{opacity:1;}
+  .feature-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,rgba(0,229,255,0.07),rgba(139,92,246,0.05));border:1px solid rgba(0,229,255,0.07);margin-bottom:16px;}
+  .feature-card h3{font-family:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;}
+  .feature-card p{font-size:13.5px;line-height:1.65;color:var(--muted);}
+
+  /* WHO */
+  .who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .who-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 28px;display:flex;gap:18px;align-items:flex-start;transition:all .28s;}
+  .who-card:hover{border-color:rgba(0,229,255,0.1);background:rgba(0,229,255,0.015);}
+  .who-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
+  .who-card h3{font-family:var(--heading);font-size:15px;font-weight:700;margin-bottom:6px;}
+  .who-card p{font-size:13px;line-height:1.65;color:var(--muted);}
+  .whisper{margin-top:10px;font-size:12px;font-style:italic;color:rgba(0,229,255,0.55);}
+
+  /* CHAT */
+  .chat-section{padding:0 24px 100px;max-width:1080px;margin:0 auto;}
+  .chat-layout{display:flex;gap:24px;align-items:flex-start;}
+  .chat-panel{flex:1;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.5);}
+  .chat-header{padding:16px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.012);display:flex;align-items:center;gap:12px;}
+  .chat-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-family:var(--heading);font-weight:800;font-size:14px;color:#020810;flex-shrink:0;}
+  .chat-header-name{font-family:var(--heading);font-weight:700;font-size:14px;}
+  .chat-status{font-size:11px;color:var(--cyan);display:flex;align-items:center;gap:5px;margin-top:2px;}
+  .status-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:pulse-dot 2s infinite;}
+  .chatbox{height:420px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.06) transparent;}
+  .msg{display:flex;gap:10px;max-width:92%;}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse;}
+  .msg-avatar{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:13px;font-weight:700;font-family:var(--heading);}
+  .bot-av{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#020810;}
+  .user-av{background:rgba(255,255,255,0.06);color:var(--muted);font-size:10px;}
+  .msg-bubble{padding:12px 16px;border-radius:14px;font-size:13.5px;line-height:1.65;}
+  .msg.bot .msg-bubble{background:rgba(8,18,36,0.8);border:1px solid rgba(0,229,255,0.05);color:var(--text);border-top-left-radius:4px;}
+  .msg.user .msg-bubble{background:linear-gradient(135deg,rgba(0,38,52,0.9),rgba(0,50,70,0.8));border:1px solid rgba(0,229,255,0.07);color:var(--text);border-top-right-radius:4px;}
+  .typing{display:flex;gap:5px;align-items:center;padding:10px 14px;}
+  .typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tbounce .9s infinite;}
+  .typing span:nth-child(2){animation-delay:.15s;}
+  .typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes tbounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);background:var(--cyan);}}
+  .chat-input-area{padding:14px 16px;border-top:1px solid var(--border);background:rgba(255,255,255,0.008);display:flex;gap:10px;}
+  .chat-input-area input{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px 16px;color:var(--text);font-family:var(--body);font-size:14px;outline:none;transition:border-color .2s;}
+  .chat-input-area input:focus{border-color:rgba(0,229,255,0.18);}
+  .chat-input-area input::placeholder{color:var(--muted);}
+  .send-btn{padding:10px 16px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#020810;font-weight:700;font-size:14px;transition:all .18s;white-space:nowrap;}
+  .send-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,229,255,0.2);}
+  .send-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+
+  /* SIDEBAR */
+  .chat-sidebar{width:278px;min-width:234px;display:flex;flex-direction:column;gap:16px;}
+  .sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;}
+  .sidebar-title{font-family:var(--heading);font-weight:700;font-size:13px;margin-bottom:12px;}
+  .quick-prompts{display:flex;flex-direction:column;gap:8px;}
+  .qp-btn{background:rgba(0,229,255,0.03);border:1px solid rgba(0,229,255,0.07);border-radius:10px;padding:10px 12px;color:var(--muted);font-size:12.5px;cursor:pointer;text-align:left;transition:all .18s;font-family:var(--body);}
+  .qp-btn:hover{background:rgba(0,229,255,0.07);color:var(--text);border-color:rgba(0,229,255,0.14);}
+  .stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+  .stat-label{font-size:12px;color:var(--muted);}
+  .stat-value{font-size:12px;font-weight:600;color:var(--cyan);}
+
+  /* CLOSING */
+  .closing{padding:90px 24px;text-align:center;max-width:700px;margin:0 auto;}
+  .closing-text{font-family:var(--heading);font-size:clamp(24px,4vw,38px);font-weight:800;line-height:1.25;letter-spacing:-0.8px;margin-bottom:20px;}
+  .closing-text .grad{background:linear-gradient(90deg,var(--cyan),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .closing-sub{color:var(--muted);font-size:16px;line-height:1.7;margin-bottom:36px;}
+
+  footer{padding:28px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px;}
+  footer a{color:var(--muted);text-decoration:none;}
+  footer a:hover{color:var(--text);}
+
+  .fade-in{opacity:0;transform:translateY(22px);transition:all .75s cubic-bezier(.2,.9,.2,1);}
+  .fade-in.show{opacity:1;transform:translateY(0);}
+
+  body::after{content:'';position:fixed;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at 12% 18%,rgba(0,229,255,0.03),transparent 38%),radial-gradient(ellipse at 88% 82%,rgba(139,92,246,0.03),transparent 38%);}
+
+  @media(max-width:900px){
+    .features-grid,.who-grid{grid-template-columns:1fr;}
+    .truth-strip{grid-template-columns:1fr;}
+    .chat-layout{flex-direction:column;}
+    .chat-sidebar{width:100%;min-width:unset;}
+    header{padding:16px 20px;}
+  }
+  @media(max-width:600px){
+    nav a:not(.btn){display:none;}
+    .hero{padding:70px 20px 50px;}
+    footer{flex-direction:column;gap:10px;text-align:center;}
+  }
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="wrap">
+
+  <header>
+    <a class="brand" href="#">
+      <div class="logo-mark">C</div>
+      <div>
+        <div class="brand-name">Claratyst</div>
+        <div class="brand-sub">Find Your Clarity</div>
+      </div>
+    </a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#who">Who It's For</a>
+      <a href="#chat">Chat</a>
+      <button class="btn btn-primary" onclick="scrollToChat()">Start Now →</button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <div class="hero-inner">
+      <div class="badge fade-in"><div class="badge-dot"></div>AI · Strategy · Clarity</div>
+      <h1 class="fade-in" style="transition-delay:.08s;">
+        <span class="h1-plain">You already know</span>
+        <span class="h1-grad">what you need to do.</span>
+      </h1>
+      <p class="hero-sub fade-in" style="transition-delay:.16s;">
+        The idea is there. The ambition is there.<br>
+        What's missing is something that <strong>cuts through the noise</strong>,<br>
+        names what you're really afraid of, and shows you the first honest step.
+      </p>
+      <div class="hero-actions fade-in" style="transition-delay:.24s;">
+        <button class="btn btn-primary" onclick="scrollToChat()">Talk to Claratyst →</button>
+        <button class="btn btn-ghost" onclick="ctaTour()">See how it works</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUTH STRIP -->
+  <div class="truth-wrap">
+    <div class="truth-strip fade-in">
+      <div class="truth-item">
+        <div class="truth-num">87%</div>
+        <div class="truth-label">of people with ideas never take the first step</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-num">1 in 3</div>
+        <div class="truth-label">business decisions fail from indecision — not bad ideas</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-num">∞</div>
+        <div class="truth-label">potential, sitting untouched because no one said <em>"just go"</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FEELS -->
+  <div class="feels-section" id="feels">
+    <div class="section-eyebrow fade-in">We already know</div>
+    <div class="feels-lines fade-in" style="transition-delay:.08s;">
+      <div class="feels-line"><div class="feels-accent"></div>You have an idea you've never told anyone.</div>
+      <div class="feels-line"><div class="feels-accent"></div>You've started — and stopped — more than once.</div>
+      <div class="feels-line"><div class="feels-accent"></div>You're not afraid of failure. You're afraid it'll work and still not feel like enough.</div>
+      <div class="feels-line"><div class="feels-accent"></div>You've looked for answers at 2am and felt more lost than before.</div>
+      <div class="feels-line"><div class="feels-accent"></div>Part of you wonders if you're the problem. You're not.</div>
+      <div class="feels-line"><div class="feels-accent"></div>You just need one honest voice that doesn't sugarcoat it.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section">
+      <div class="section-eyebrow fade-in">What Claratyst does</div>
+      <div class="section-title fade-in" style="transition-delay:.06s;">Not just answers.<br><span>Actual clarity.</span></div>
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🧠</div>
+          <h3>Diagnoses the Real Block</h3>
+          <p>Most people aren't stuck on strategy. They're stuck on fear, doubt, or a decision they keep avoiding. Claratyst finds it — and names it.</p>
+        </div>
+        <div class="feature-card fade-in" style="transition-delay:.08s;">
+          <div class="feature-icon">🎯</div>
+          <h3>Validates Any Idea</h3>
+          <p>From a household product to a corporate strategy — instant market feedback, viability analysis, and honest assessment. No jargon. No fluff.</p>
+        </div>
+        <div class="feature-card fade-in" style="transition-delay:.16s;">
+          <div class="feature-icon">🧭</div>
+          <h3>Your First Clear Step</h3>
+          <p>Not a 40-page plan. One specific, actionable move you can make today. Then another. Momentum is built one honest step at a time.</p>
+        </div>
+        <div class="feature-card fade-in" style="transition-delay:.24s;">
+          <div class="feature-icon">📈</div>
+          <h3>Strategic Depth</h3>
+          <p>Pricing, go-to-market, positioning, growth — distilled for humans. Whether you're starting from scratch or scaling what's already working.</p>
+        </div>
+        <div class="feature-card fade-in" style="transition-delay:.32s;">
+          <div class="feature-icon">🤝</div>
+          <h3>Remembers Your Journey</h3>
+          <p>Claratyst isn't a one-off chat. It knows your context, your history, your progress — and holds you accountable between sessions.</p>
+        </div>
+        <div class="feature-card fade-in" style="transition-delay:.40s;">
+          <div class="feature-icon">⚡</div>
+          <h3>Multi-Model Intelligence</h3>
+          <p>Powered by the world's best AI minds working together — each contributing its strength — synthesised into one clear, trusted voice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WHO -->
+  <section id="who">
+    <div class="section">
+      <div class="section-eyebrow fade-in">Who it's for</div>
+      <div class="section-title fade-in" style="transition-delay:.06s;">Anyone with something<br><span>worth building.</span></div>
+      <div class="who-grid">
+        <div class="who-card fade-in">
+          <div class="who-icon">🏠</div>
+          <div>
+            <h3>The Home Entrepreneur</h3>
+            <p>You've been managing everything quietly — a household, a family, a life. Somewhere in that, an idea has been waiting. Claratyst takes it as seriously as you do.</p>
+            <div class="whisper">"I always thought maybe I could turn this into something."</div>
+          </div>
+        </div>
+        <div class="who-card fade-in" style="transition-delay:.08s;">
+          <div class="who-icon">🎓</div>
+          <div>
+            <h3>The First-Time Founder</h3>
+            <p>Young. Ambitious. No network, no roadmap. Everyone says be realistic. Claratyst says be specific — then shows you exactly how to get there.</p>
+            <div class="whisper">"I don't know where to start. But I know I can't not try."</div>
+          </div>
+        </div>
+        <div class="who-card fade-in" style="transition-delay:.16s;">
+          <div class="who-icon">💼</div>
+          <div>
+            <h3>The Business Professional</h3>
+            <p>You've advised clients for years. You know the frameworks. But your own idea sits in a notebook, untouched. Sometimes the hardest person to consult is yourself.</p>
+            <div class="whisper">"I help everyone else build. When do I build mine?"</div>
+          </div>
+        </div>
+        <div class="who-card fade-in" style="transition-delay:.24s;">
+          <div class="who-icon">🏢</div>
+          <div>
+            <h3>The Growing Organisation</h3>
+            <p>Strategic decisions at scale carry weight. Claratyst gives your team a sharp, unbiased thinking partner — for new ventures, pivots, or decisions that keep stalling.</p>
+            <div class="whisper">"We need clarity, not more meetings."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CHAT -->
+  <section id="chat" class="chat-section" style="padding-top:70px;">
+    <div class="section-eyebrow fade-in">Try it now</div>
+    <div class="section-title fade-in" style="transition-delay:.06s;margin-bottom:28px;">Say what's on your mind.<br><span>Claratyst handles the rest.</span></div>
+    <div class="chat-layout">
+      <div class="chat-panel fade-in" style="transition-delay:.12s;">
+        <div class="chat-header">
+          <div class="chat-avatar">C</div>
+          <div>
+            <div class="chat-header-name">Claratyst</div>
+            <div class="chat-status"><div class="status-dot"></div>Online · No judgement here</div>
+          </div>
+        </div>
+        <div class="chatbox" id="chatbox" role="log" aria-live="polite">
+          <div class="msg bot">
+            <div class="msg-avatar bot-av">C</div>
+            <div class="msg-bubble">
+              Hey. I'm Claratyst.<br><br>
+              I'm not going to ask you for a business plan or a pitch deck. I just want to know what's been sitting in your head — the thing you keep thinking about but haven't said out loud yet.<br><br>
+              What is it?
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input id="msg" placeholder="Just say it. No polish needed." onkeydown="if(event.key==='Enter')sendMsg()" />
+          <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send →</button>
+        </div>
+      </div>
+
+      <aside class="chat-sidebar fade-in" style="transition-delay:.2s;">
+        <div class="sidebar-card">
+          <div class="sidebar-title">⚡ Quick Starters</div>
+          <div class="quick-prompts">
+            <button class="qp-btn" onclick="quickPrompt(this)">I have an idea I've never told anyone</button>
+            <button class="qp-btn" onclick="quickPrompt(this)">I keep starting things and stopping</button>
+            <button class="qp-btn" onclick="quickPrompt(this)">I need to make a big business decision</button>
+            <button class="qp-btn" onclick="quickPrompt(this)">Validate my idea — honestly</button>
+            <button class="qp-btn" onclick="quickPrompt(this)">I don't know where to start</button>
+          </div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">📊 Session</div>
+          <div class="stat-row"><span class="stat-label">Messages</span><span class="stat-value" id="msg-count">0</span></div>
+          <div class="stat-row"><span class="stat-label">Ideas explored</span><span class="stat-value" id="idea-count">0</span></div>
+          <div class="stat-row"><span class="stat-label">Status</span><span class="stat-value">Active</span></div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">🔮 Coming Soon</div>
+          <p style="font-size:12.5px;color:var(--muted);line-height:1.65;">Persistent memory. Multi-model deep analysis. Team workspaces. Accountability check-ins. <span style="color:var(--cyan);">Claratyst is just beginning.</span></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <div class="divider"></div>
+  <div class="closing fade-in">
+    <div class="closing-text">The world changes when people who care<br><span class="grad">finally decide to act.</span></div>
+    <p class="closing-sub">You've been thinking about this long enough.<br>Claratyst is here when you're ready to move.</p>
+    <button class="btn btn-primary" style="font-size:15px;padding:14px 28px;" onclick="scrollToChat()">Find Your Clarity →</button>
+  </div>
+  <div class="divider" style="margin-top:60px;"></div>
+
+  <footer>
+    <div>© <span id="year"></span> Claratyst · Clarity for every person with something worth building.</div>
+    <div style="display:flex;gap:20px;"><a href="#">Privacy</a><a href="#">Contact</a></div>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  function scrollToChat(){document.querySelector('#chat').scrollIntoView({behavior:'smooth',block:'start'});}
+  function ctaTour(){alert("Claratyst works in 3 honest steps:\n\n1. You say what's on your mind — messy, scary, half-formed. Doesn't matter.\n\n2. Claratyst cuts through the noise and names what's actually blocking you.\n\n3. You leave with one specific, honest next step. Not a plan. A move.\n\nThen you come back and make the next one.");}
+
+  let msgCount=0,ideaCount=0,rIdx=0,isTyping=false;
+  const responses=[
+    "I hear that. And before we go any further — the fact that you said this out loud already puts you ahead of everyone who never did.\n\nNow tell me more. What does this idea actually do? Not the polished version. The raw one.",
+    "I'm going to stop you there — not because anything's wrong, but because I noticed something.\n\nYou described the idea. But you skipped the part about why *you* care about it. That part matters more than the market size.\n\nWhy does this one stick with you?",
+    "Most people who say that are using 'overthinking' as a cover story for something else.\n\nThe real question is: what's the actual worst thing that happens if this doesn't work? Not the story you tell yourself. The real, practical outcome.\n\nSay it out loud.",
+    "That's more clarity than you think. Let me reflect back what I'm hearing:\n\nYou have a direction. You have a reason. What you're missing is permission — and you're waiting for someone to give it.\n\nI'm giving it to you. What's one move you could make in the next 48 hours?",
+    "You just described the exact thing that stops most people — not lack of knowledge, not lack of money. Lack of a first honest step.\n\nHere's yours: talk to one real person who has the problem you're solving. Not to pitch them. Just to listen.\n\nCan you name one person right now?"
+  ];
+
+  function sendMsg(){
+    const input=document.getElementById('msg');
+    const text=input.value.trim();
+    if(!text||isTyping)return;
+    const box=document.getElementById('chatbox');
+    msgCount++;
+    if(msgCount===1||/idea|business|start|build/i.test(text)){ideaCount++;document.getElementById('idea-count').textContent=ideaCount;}
+    document.getElementById('msg-count').textContent=msgCount;
+    const u=document.createElement('div');
+    u.className='msg user';
+    u.innerHTML=`<div class="msg-avatar user-av">You</div><div class="msg-bubble">${esc(text)}</div>`;
+    box.appendChild(u);box.scrollTop=box.scrollHeight;input.value='';
+    isTyping=true;document.getElementById('sendBtn').disabled=true;
+    const t=document.createElement('div');t.className='msg bot';t.id='typing-ind';
+    t.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    box.appendChild(t);box.scrollTop=box.scrollHeight;
+    setTimeout(()=>{
+      document.getElementById('typing-ind')?.remove();
+      const b=document.createElement('div');b.className='msg bot';
+      const r=responses[rIdx%responses.length];rIdx++;
+      b.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble">${r.replace(/\n/g,'<br>')}</div>`;
+      box.appendChild(b);box.scrollTop=box.scrollHeight;
+      isTyping=false;document.getElementById('sendBtn').disabled=false;
+    },1400+Math.random()*700);
+  }
+
+  function quickPrompt(btn){document.getElementById('msg').value=btn.textContent;scrollToChat();document.getElementById('msg').focus();}
+  function esc(t){return t.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('show');});},{threshold:0.1});
+  document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+
+  const canvas=document.getElementById('particles');
+  const ctx=canvas.getContext('2d');
+  let W=canvas.width=innerWidth,H=canvas.height=innerHeight;
+  window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight;});
+  const COUNT=Math.max(50,Math.floor(W*H/100000));
+  class Dot{
+    constructor(){this.init();}
+    init(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=1+Math.random()*2;this.vx=(Math.random()-.5)*.3;this.vy=Math.random()*.4-.05;this.a=.05+Math.random()*.13;this.col=Math.random()>.55?'0,229,255':'139,92,246';this.life=180+Math.random()*220;this.age=0;}
+    tick(){this.x+=this.vx;this.y+=this.vy;this.age++;if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20||this.age>this.life)this.init();}
+    draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*7);g.addColorStop(0,`rgba(${this.col},${this.a})`);g.addColorStop(1,`rgba(${this.col},0)`);ctx.beginPath();ctx.arc(this.x,this.y,this.r*7,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+  }
+  const pts=[];for(let i=0;i<COUNT;i++)pts.push(new Dot());
+  (function loop(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.tick();p.draw();});requestAnimationFrame(loop);})();
+  addEventListener('mousemove',e=>{const mx=(e.clientX-W/2)*.014,my=(e.clientY-H/2)*.014;canvas.style.transform=`translate3d(${mx}px,${my}px,0)`;});
+</script>
+</body>
+</html>
