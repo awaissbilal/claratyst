@@ -4,335 +4,395 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Claratyst — Find Your Clarity</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#04080f;--surface:rgba(255,255,255,0.022);--border:rgba(255,255,255,0.042);
-    --cyan:#00e5ff;--violet:#8b5cf6;--gold:#f0c040;
-    --text:#ddeeff;--muted:#7a9bbf;
-    --heading:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+  :root{
+    --bg:#0a0908;
+    --bg-raised:#131110;
+    --panel:#0f0e0c;
+    --line:rgba(238,231,216,0.1);
+    --line-strong:rgba(238,231,216,0.18);
+    --ink:#eee7d8;
+    --ink-dim:#a89f8c;
+    --muted:#6f6858;
+    --ember:#ff5a29;
+    --ember-dim:rgba(255,90,41,0.5);
+    --ember-wash:rgba(255,90,41,0.07);
+    --serif:'Fraunces',serif;
+    --sans:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;scroll-behavior:smooth;}
-  body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:0.8;}
-  .wrap{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  body::before{
+    content:'';
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(255,90,41,0.05), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,90,41,0.03), transparent 60%);
+  }
+  .wrap{position:relative;z-index:1;}
+  ::selection{background:var(--ember);color:#0a0908;}
 
-  /* NAV */
-  header{display:flex;align-items:center;justify-content:space-between;padding:20px 44px;backdrop-filter:blur(16px) saturate(150%);background:linear-gradient(180deg,rgba(4,8,15,0.9),rgba(4,8,15,0.6));border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
-  .brand{display:flex;gap:12px;align-items:center;text-decoration:none;}
-  .logo-mark{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-family:var(--heading);font-weight:800;font-size:18px;color:#020810;box-shadow:0 0 24px rgba(0,229,255,0.2);flex-shrink:0;}
-  .brand-name{font-family:var(--heading);font-weight:800;font-size:17px;letter-spacing:-0.3px;}
-  .brand-sub{font-size:11px;color:var(--muted);margin-top:1px;}
-  nav{display:flex;gap:6px;align-items:center;}
-  nav a{color:rgba(221,238,255,0.75);text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .18s;}
-  nav a:hover{color:#fff;background:rgba(255,255,255,0.04);}
-  .btn{padding:10px 20px;border-radius:10px;border:none;cursor:pointer;font-family:var(--body);font-weight:600;font-size:14px;transition:all .2s;}
-  .btn-primary{background:linear-gradient(90deg,var(--cyan),var(--violet));color:#020810;box-shadow:0 8px 30px rgba(139,92,246,0.2);}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,229,255,0.24);}
-  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text);}
-  .btn-ghost:hover{border-color:rgba(0,229,255,0.25);background:rgba(0,229,255,0.04);}
+  a{color:inherit;}
+  .container{max-width:1100px;margin:0 auto;padding:0 32px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--ember);display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:'';width:14px;height:1px;background:var(--ember-dim);}
+  .divider{height:1px;background:var(--line);}
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 32px;
+    background:rgba(10,9,8,0.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .mark{
+    width:30px;height:30px;border:1px solid var(--line-strong);border-radius:3px;
+    display:grid;place-items:center;position:relative;flex-shrink:0;
+  }
+  .mark::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--ember);box-shadow:0 0 8px var(--ember);}
+  .brand-name{font-family:var(--mono);font-size:14px;letter-spacing:3px;font-weight:500;}
+  nav{display:flex;align-items:center;gap:32px;}
+  nav a.nav-link{font-size:14px;color:var(--ink-dim);text-decoration:none;transition:color .2s;}
+  nav a.nav-link:hover{color:var(--ink);}
+  .btn{
+    font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:.2px;
+    padding:11px 22px;border-radius:2px;cursor:pointer;border:1px solid transparent;
+    transition:all .2s;
+  }
+  .btn-primary{background:var(--ember);color:#0a0908;}
+  .btn-primary:hover{background:#ff7147;}
+  .btn-line{background:transparent;border:1px solid var(--line-strong);color:var(--ink);}
+  .btn-line:hover{border-color:var(--ember-dim);color:var(--ember);}
 
   /* HERO */
-  .hero{padding:110px 24px 90px;display:flex;align-items:center;justify-content:center;text-align:center;}
-  .hero-inner{max-width:820px;width:100%;}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.1);padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:32px;letter-spacing:1px;text-transform:uppercase;}
-  .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse-dot 2s infinite;}
-  @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.25;}}
-  h1{font-family:var(--heading);font-size:clamp(44px,7.5vw,82px);font-weight:800;line-height:1.0;letter-spacing:-2.5px;}
-  .h1-plain{color:var(--text);display:block;}
-  .h1-grad{display:block;background:linear-gradient(90deg,var(--cyan) 0%,#a78bfa 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:6px;}
-  .hero-sub{color:var(--muted);font-size:18px;line-height:1.75;max-width:600px;margin:28px auto 40px;}
-  .hero-sub strong{color:var(--text);font-weight:500;}
-  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .hero{padding:130px 32px 100px;max-width:900px;margin:0 auto;}
+  .hero .eyebrow{margin-bottom:28px;}
+  h1{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(40px,6.4vw,72px);line-height:1.06;letter-spacing:-1px;
+  }
+  h1 em{font-style:italic;font-weight:500;color:var(--ember);}
+  .hero-sub{
+    font-size:17px;line-height:1.75;color:var(--ink-dim);max-width:540px;
+    margin:30px 0 40px;font-weight:400;
+  }
+  .hero-sub strong{color:var(--ink);font-weight:500;}
+  .hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .text-link{font-size:14px;color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:all .2s;cursor:pointer;background:none;font-family:var(--sans);}
+  .text-link:hover{color:var(--ember);border-color:var(--ember-dim);}
 
-  /* TRUTH STRIP */
-  .truth-wrap{padding:0 24px 70px;max-width:1080px;margin:0 auto;}
-  .truth-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:18px;overflow:hidden;}
-  .truth-item{background:var(--bg);padding:36px 28px;text-align:center;transition:background .3s;}
-  .truth-item:hover{background:rgba(0,229,255,0.025);}
-  .truth-num{font-family:var(--heading);font-size:44px;font-weight:800;background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;}
-  .truth-label{color:var(--muted);font-size:14px;line-height:1.5;}
+  /* STRIP */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .strip-grid{display:grid;grid-template-columns:repeat(3,1fr);}
+  .strip-item{padding:40px 32px;border-left:1px solid var(--line);}
+  .strip-item:first-child{border-left:none;}
+  .strip-num{font-family:var(--mono);font-size:34px;color:var(--ink);margin-bottom:8px;}
+  .strip-label{font-size:13px;line-height:1.6;color:var(--muted);max-width:220px;}
 
-  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);margin:0 40px;}
+  /* SECTION generic */
+  .section{padding:100px 32px;max-width:1100px;margin:0 auto;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:56px;flex-wrap:wrap;}
+  .section-title{
+    font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.6vw,42px);
+    letter-spacing:-0.5px;line-height:1.15;max-width:560px;
+  }
+  .section-title em{font-style:italic;color:var(--ember);}
+  .section-note{font-size:14px;color:var(--muted);max-width:280px;line-height:1.6;}
 
-  /* FEELS */
-  .feels-section{padding:80px 24px;max-width:760px;margin:0 auto;text-align:center;}
-  .section-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
-  .feels-lines{display:flex;flex-direction:column;gap:0;text-align:left;}
-  .feels-line{padding:22px 24px;border-bottom:1px solid var(--border);font-family:var(--heading);font-size:clamp(16px,2.2vw,22px);font-weight:700;letter-spacing:-0.3px;color:rgba(221,238,255,0.3);transition:color .4s;cursor:default;position:relative;}
-  .feels-line:hover{color:var(--text);}
-  .feels-accent{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),var(--violet));opacity:0;transition:opacity .4s;}
-  .feels-line:hover .feels-accent{opacity:1;}
+  /* GRAVEYARD (signature) */
+  .graveyard{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:110px 32px;}
+  .graveyard-inner{max-width:760px;margin:0 auto;}
+  .grave-list{margin-top:44px;}
+  .grave-row{
+    padding:18px 0;border-bottom:1px solid var(--line);
+    display:flex;align-items:baseline;gap:18px;
+  }
+  .grave-mark{font-family:var(--mono);font-size:11px;color:var(--muted);flex-shrink:0;width:18px;}
+  .grave-text{
+    font-family:var(--serif);font-style:italic;font-size:clamp(16px,2vw,20px);
+    color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(111,104,88,0.5);
+    text-decoration-thickness:1px;transition:color .3s;
+  }
+  .grave-row:hover .grave-text{color:var(--ink-dim);}
+  .grave-close{
+    margin-top:48px;font-family:var(--serif);font-size:clamp(20px,2.6vw,28px);
+    font-weight:500;line-height:1.4;
+  }
+  .grave-close em{font-style:italic;color:var(--ember);}
 
-  /* SECTION */
-  .section{padding:80px 24px;max-width:1080px;margin:0 auto;}
-  .section-title{font-family:var(--heading);font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:52px;line-height:1.1;}
-  .section-title span{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
-
-  /* FEATURES */
-  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s cubic-bezier(.2,.9,.2,1);position:relative;overflow:hidden;}
-  .feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,0.04),transparent 60%);opacity:0;transition:opacity .3s;}
-  .feature-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,0.12);}
-  .feature-card:hover::before{opacity:1;}
-  .feature-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,rgba(0,229,255,0.07),rgba(139,92,246,0.05));border:1px solid rgba(0,229,255,0.07);margin-bottom:16px;}
-  .feature-card h3{font-family:var(--heading);font-size:16px;font-weight:700;margin-bottom:8px;}
-  .feature-card p{font-size:13.5px;line-height:1.65;color:var(--muted);}
+  /* CAPABILITY ROWS */
+  .cap-list{border-top:1px solid var(--line);}
+  .cap-row{
+    display:grid;grid-template-columns:120px 1fr;gap:32px;padding:32px 0;
+    border-bottom:1px solid var(--line);position:relative;
+  }
+  .cap-row::before{
+    content:'';position:absolute;left:-32px;top:0;bottom:0;width:2px;background:var(--ember);
+    opacity:0;transition:opacity .25s;
+  }
+  .cap-row:hover::before{opacity:1;}
+  .cap-tag{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--ember);padding-top:4px;}
+  .cap-body h3{font-family:var(--serif);font-weight:500;font-size:19px;margin-bottom:8px;letter-spacing:-.2px;}
+  .cap-body p{font-size:14px;line-height:1.7;color:var(--ink-dim);max-width:560px;}
 
   /* WHO */
-  .who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-  .who-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 28px;display:flex;gap:18px;align-items:flex-start;transition:all .28s;}
-  .who-card:hover{border-color:rgba(0,229,255,0.1);background:rgba(0,229,255,0.015);}
-  .who-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
-  .who-card h3{font-family:var(--heading);font-size:15px;font-weight:700;margin-bottom:6px;}
-  .who-card p{font-size:13px;line-height:1.65;color:var(--muted);}
-  .whisper{margin-top:10px;font-size:12px;font-style:italic;color:rgba(0,229,255,0.55);}
+  .who-list{border-top:1px solid var(--line);}
+  .who-row{
+    display:grid;grid-template-columns:160px 1fr;gap:32px;padding:34px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .who-tag{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--muted);padding-top:4px;}
+  .who-body h3{font-family:var(--serif);font-weight:500;font-size:19px;margin-bottom:8px;}
+  .who-body p{font-size:14px;line-height:1.7;color:var(--ink-dim);max-width:600px;margin-bottom:10px;}
+  .who-quote{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--ember-dim);}
 
   /* CHAT */
-  .chat-section{padding:0 24px 100px;max-width:1080px;margin:0 auto;}
-  .chat-layout{display:flex;gap:24px;align-items:flex-start;}
-  .chat-panel{flex:1;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.5);}
-  .chat-header{padding:16px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.012);display:flex;align-items:center;gap:12px;}
-  .chat-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-family:var(--heading);font-weight:800;font-size:14px;color:#020810;flex-shrink:0;}
-  .chat-header-name{font-family:var(--heading);font-weight:700;font-size:14px;}
-  .chat-status{font-size:11px;color:var(--cyan);display:flex;align-items:center;gap:5px;margin-top:2px;}
-  .status-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:pulse-dot 2s infinite;}
-  .chatbox{height:420px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.06) transparent;}
-  .msg{display:flex;gap:10px;max-width:92%;}
+  .chat-section{padding-top:0;}
+  .chat-layout{display:flex;gap:24px;align-items:flex-start;margin-top:56px;}
+  .chat-panel{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:2px;overflow:hidden;}
+  .chat-header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;}
+  .chat-avatar{width:32px;height:32px;border:1px solid var(--line-strong);border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--ember);flex-shrink:0;}
+  .chat-header-name{font-family:var(--mono);font-size:13px;letter-spacing:1px;}
+  .chat-status{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:3px;font-family:var(--mono);}
+  .status-dot{width:5px;height:5px;border-radius:50%;background:var(--ember);}
+  .chatbox{height:420px;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:rgba(238,231,216,0.1) transparent;}
+  .msg{display:flex;gap:10px;max-width:90%;}
   .msg.user{align-self:flex-end;flex-direction:row-reverse;}
-  .msg-avatar{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:13px;font-weight:700;font-family:var(--heading);}
-  .bot-av{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#020810;}
-  .user-av{background:rgba(255,255,255,0.06);color:var(--muted);font-size:10px;}
-  .msg-bubble{padding:12px 16px;border-radius:14px;font-size:13.5px;line-height:1.65;}
-  .msg.bot .msg-bubble{background:rgba(8,18,36,0.8);border:1px solid rgba(0,229,255,0.05);color:var(--text);border-top-left-radius:4px;}
-  .msg.user .msg-bubble{background:linear-gradient(135deg,rgba(0,38,52,0.9),rgba(0,50,70,0.8));border:1px solid rgba(0,229,255,0.07);color:var(--text);border-top-right-radius:4px;}
+  .msg-avatar{width:26px;height:26px;border-radius:2px;flex-shrink:0;display:grid;place-items:center;font-size:10px;font-family:var(--mono);border:1px solid var(--line-strong);}
+  .bot-av{color:var(--ember);}
+  .user-av{color:var(--muted);}
+  .msg-bubble{padding:13px 16px;border-radius:2px;font-size:13.5px;line-height:1.7;}
+  .msg.bot .msg-bubble{background:var(--bg-raised);border:1px solid var(--line);color:var(--ink);}
+  .msg.user .msg-bubble{background:var(--ember-wash);border:1px solid rgba(255,90,41,0.18);color:var(--ink);}
   .typing{display:flex;gap:5px;align-items:center;padding:10px 14px;}
-  .typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tbounce .9s infinite;}
+  .typing span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:tbounce .9s infinite;}
   .typing span:nth-child(2){animation-delay:.15s;}
   .typing span:nth-child(3){animation-delay:.3s;}
-  @keyframes tbounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);background:var(--cyan);}}
-  .chat-input-area{padding:14px 16px;border-top:1px solid var(--border);background:rgba(255,255,255,0.008);display:flex;gap:10px;}
-  .chat-input-area input{flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:12px 16px;color:var(--text);font-family:var(--body);font-size:14px;outline:none;transition:border-color .2s;}
-  .chat-input-area input:focus{border-color:rgba(0,229,255,0.18);}
+  @keyframes tbounce{0%,80%,100%{transform:translateY(0);opacity:.5;}40%{transform:translateY(-4px);background:var(--ember);opacity:1;}}
+  .chat-input-area{padding:16px;border-top:1px solid var(--line);display:flex;gap:10px;}
+  .chat-input-area input{
+    flex:1;background:var(--bg-raised);border:1px solid var(--line);border-radius:2px;
+    padding:12px 14px;color:var(--ink);font-family:var(--sans);font-size:13.5px;outline:none;transition:border-color .2s;
+  }
+  .chat-input-area input:focus{border-color:var(--ember-dim);}
   .chat-input-area input::placeholder{color:var(--muted);}
-  .send-btn{padding:10px 16px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#020810;font-weight:700;font-size:14px;transition:all .18s;white-space:nowrap;}
-  .send-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,229,255,0.2);}
-  .send-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+  .send-btn{padding:10px 18px;border-radius:2px;border:none;cursor:pointer;background:var(--ember);color:#0a0908;font-weight:600;font-size:13.5px;transition:background .2s;white-space:nowrap;}
+  .send-btn:hover{background:#ff7147;}
+  .send-btn:disabled{opacity:0.4;cursor:not-allowed;}
 
-  /* SIDEBAR */
-  .chat-sidebar{width:278px;min-width:234px;display:flex;flex-direction:column;gap:16px;}
-  .sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;}
-  .sidebar-title{font-family:var(--heading);font-weight:700;font-size:13px;margin-bottom:12px;}
+  .chat-sidebar{width:260px;min-width:220px;display:flex;flex-direction:column;gap:16px;}
+  .sidebar-card{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:20px;}
+  .sidebar-title{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;text-transform:uppercase;}
   .quick-prompts{display:flex;flex-direction:column;gap:8px;}
-  .qp-btn{background:rgba(0,229,255,0.03);border:1px solid rgba(0,229,255,0.07);border-radius:10px;padding:10px 12px;color:var(--muted);font-size:12.5px;cursor:pointer;text-align:left;transition:all .18s;font-family:var(--body);}
-  .qp-btn:hover{background:rgba(0,229,255,0.07);color:var(--text);border-color:rgba(0,229,255,0.14);}
-  .stat-row{display:flex;justify-content:space-between;margin-bottom:8px;}
-  .stat-label{font-size:12px;color:var(--muted);}
-  .stat-value{font-size:12px;font-weight:600;color:var(--cyan);}
+  .qp-btn{
+    background:transparent;border:1px solid var(--line);border-radius:2px;padding:11px 12px;
+    color:var(--ink-dim);font-size:12.5px;cursor:pointer;text-align:left;transition:all .18s;font-family:var(--sans);
+  }
+  .qp-btn:hover{border-color:var(--ember-dim);color:var(--ink);}
+  .stat-row{display:flex;justify-content:space-between;margin-bottom:10px;font-family:var(--mono);}
+  .stat-label{font-size:11.5px;color:var(--muted);}
+  .stat-value{font-size:11.5px;color:var(--ember);}
 
   /* CLOSING */
-  .closing{padding:90px 24px;text-align:center;max-width:700px;margin:0 auto;}
-  .closing-text{font-family:var(--heading);font-size:clamp(24px,4vw,38px);font-weight:800;line-height:1.25;letter-spacing:-0.8px;margin-bottom:20px;}
-  .closing-text .grad{background:linear-gradient(90deg,var(--cyan),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .closing-sub{color:var(--muted);font-size:16px;line-height:1.7;margin-bottom:36px;}
+  .closing{padding:120px 32px;text-align:center;max-width:680px;margin:0 auto;}
+  .closing-text{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:500;line-height:1.3;letter-spacing:-.6px;margin-bottom:28px;}
+  .closing-text em{font-style:italic;color:var(--ember);}
+  .closing-sub{color:var(--ink-dim);font-size:15px;line-height:1.7;margin-bottom:36px;}
 
-  footer{padding:28px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px;}
-  footer a{color:var(--muted);text-decoration:none;}
-  footer a:hover{color:var(--text);}
+  footer{padding:28px 32px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;font-family:var(--mono);}
+  footer a{text-decoration:none;color:var(--muted);}
+  footer a:hover{color:var(--ink);}
+  .footer-links{display:flex;gap:22px;}
 
-  .fade-in{opacity:0;transform:translateY(22px);transition:all .75s cubic-bezier(.2,.9,.2,1);}
+  .fade-in{opacity:0;transform:translateY(16px);transition:all .7s cubic-bezier(.2,.8,.2,1);}
   .fade-in.show{opacity:1;transform:translateY(0);}
 
-  body::after{content:'';position:fixed;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at 12% 18%,rgba(0,229,255,0.03),transparent 38%),radial-gradient(ellipse at 88% 82%,rgba(139,92,246,0.03),transparent 38%);}
-
-  @media(max-width:900px){
-    .features-grid,.who-grid{grid-template-columns:1fr;}
-    .truth-strip{grid-template-columns:1fr;}
+  @media(max-width:860px){
+    .strip-grid{grid-template-columns:1fr;}
+    .strip-item{border-left:none;border-top:1px solid var(--line);}
+    .strip-item:first-child{border-top:none;}
+    .cap-row,.who-row{grid-template-columns:1fr;gap:10px;}
     .chat-layout{flex-direction:column;}
-    .chat-sidebar{width:100%;min-width:unset;}
-    header{padding:16px 20px;}
+    .chat-sidebar{width:100%;min-width:unset;flex-direction:row;flex-wrap:wrap;}
+    .sidebar-card{flex:1;min-width:220px;}
   }
   @media(max-width:600px){
-    nav a:not(.btn){display:none;}
-    .hero{padding:70px 20px 50px;}
+    nav .nav-link{display:none;}
+    header{padding:18px 20px;}
+    .hero{padding:80px 20px 60px;}
+    .section{padding:70px 20px;}
+    .graveyard{padding:70px 20px;}
     footer{flex-direction:column;gap:10px;text-align:center;}
   }
 </style>
 </head>
 <body>
-<canvas id="particles"></canvas>
 <div class="wrap">
 
   <header>
     <a class="brand" href="#">
-      <div class="logo-mark">C</div>
-      <div>
-        <div class="brand-name">Claratyst</div>
-        <div class="brand-sub">Find Your Clarity</div>
-      </div>
+      <div class="mark"></div>
+      <div class="brand-name">CLARATYST</div>
     </a>
     <nav>
-      <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="#who">Who It's For</a>
-      <a href="#chat">Chat</a>
-      <button class="btn btn-primary" onclick="scrollToChat()">Start Now →</button>
+      <a class="nav-link" href="#graveyard">The Graveyard</a>
+      <a class="nav-link" href="#capabilities">What It Does</a>
+      <a class="nav-link" href="#who">Who It's For</a>
+      <button class="btn btn-primary" onclick="scrollToChat()">Begin →</button>
     </nav>
   </header>
 
   <!-- HERO -->
   <section class="hero" id="about">
-    <div class="hero-inner">
-      <div class="badge fade-in"><div class="badge-dot"></div>AI · Strategy · Clarity</div>
-      <h1 class="fade-in" style="transition-delay:.08s;">
-        <span class="h1-plain">You already know</span>
-        <span class="h1-grad">what you need to do.</span>
-      </h1>
-      <p class="hero-sub fade-in" style="transition-delay:.16s;">
-        The idea is there. The ambition is there.<br>
-        What's missing is something that <strong>cuts through the noise</strong>,<br>
-        names what you're really afraid of, and shows you the first honest step.
-      </p>
-      <div class="hero-actions fade-in" style="transition-delay:.24s;">
-        <button class="btn btn-primary" onclick="scrollToChat()">Talk to Claratyst →</button>
-        <button class="btn btn-ghost" onclick="ctaTour()">See how it works</button>
-      </div>
+    <div class="eyebrow fade-in">An honest first step</div>
+    <h1 class="fade-in" style="transition-delay:.06s;">You already know<br>what you're <em>afraid</em> to start.</h1>
+    <p class="hero-sub fade-in" style="transition-delay:.12s;">
+      Claratyst isn't a planning tool. It's the conversation you've been avoiding —
+      the one that <strong>names what's actually stopping you</strong> and hands you
+      one honest move, not a forty-slide plan.
+    </p>
+    <div class="hero-actions fade-in" style="transition-delay:.18s;">
+      <button class="btn btn-primary" onclick="scrollToChat()">Talk to Claratyst</button>
+      <button class="text-link" onclick="ctaTour()">See how it works →</button>
     </div>
   </section>
 
-  <!-- TRUTH STRIP -->
-  <div class="truth-wrap">
-    <div class="truth-strip fade-in">
-      <div class="truth-item">
-        <div class="truth-num">87%</div>
-        <div class="truth-label">of people with ideas never take the first step</div>
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="container strip-grid fade-in">
+      <div class="strip-item">
+        <div class="strip-num">87%</div>
+        <div class="strip-label">of people with a real idea never take the first step toward it</div>
       </div>
-      <div class="truth-item">
-        <div class="truth-num">1 in 3</div>
-        <div class="truth-label">business decisions fail from indecision — not bad ideas</div>
+      <div class="strip-item">
+        <div class="strip-num">1 in 3</div>
+        <div class="strip-label">stalled ventures fail from indecision, not from a bad idea</div>
       </div>
-      <div class="truth-item">
-        <div class="truth-num">∞</div>
-        <div class="truth-label">potential, sitting untouched because no one said <em>"just go"</em></div>
+      <div class="strip-item">
+        <div class="strip-num">0</div>
+        <div class="strip-label">business plans required before you're allowed to begin</div>
       </div>
     </div>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- FEELS -->
-  <div class="feels-section" id="feels">
-    <div class="section-eyebrow fade-in">We already know</div>
-    <div class="feels-lines fade-in" style="transition-delay:.08s;">
-      <div class="feels-line"><div class="feels-accent"></div>You have an idea you've never told anyone.</div>
-      <div class="feels-line"><div class="feels-accent"></div>You've started — and stopped — more than once.</div>
-      <div class="feels-line"><div class="feels-accent"></div>You're not afraid of failure. You're afraid it'll work and still not feel like enough.</div>
-      <div class="feels-line"><div class="feels-accent"></div>You've looked for answers at 2am and felt more lost than before.</div>
-      <div class="feels-line"><div class="feels-accent"></div>Part of you wonders if you're the problem. You're not.</div>
-      <div class="feels-line"><div class="feels-accent"></div>You just need one honest voice that doesn't sugarcoat it.</div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="section">
-      <div class="section-eyebrow fade-in">What Claratyst does</div>
-      <div class="section-title fade-in" style="transition-delay:.06s;">Not just answers.<br><span>Actual clarity.</span></div>
-      <div class="features-grid">
-        <div class="feature-card fade-in">
-          <div class="feature-icon">🧠</div>
-          <h3>Diagnoses the Real Block</h3>
-          <p>Most people aren't stuck on strategy. They're stuck on fear, doubt, or a decision they keep avoiding. Claratyst finds it — and names it.</p>
-        </div>
-        <div class="feature-card fade-in" style="transition-delay:.08s;">
-          <div class="feature-icon">🎯</div>
-          <h3>Validates Any Idea</h3>
-          <p>From a household product to a corporate strategy — instant market feedback, viability analysis, and honest assessment. No jargon. No fluff.</p>
-        </div>
-        <div class="feature-card fade-in" style="transition-delay:.16s;">
-          <div class="feature-icon">🧭</div>
-          <h3>Your First Clear Step</h3>
-          <p>Not a 40-page plan. One specific, actionable move you can make today. Then another. Momentum is built one honest step at a time.</p>
-        </div>
-        <div class="feature-card fade-in" style="transition-delay:.24s;">
-          <div class="feature-icon">📈</div>
-          <h3>Strategic Depth</h3>
-          <p>Pricing, go-to-market, positioning, growth — distilled for humans. Whether you're starting from scratch or scaling what's already working.</p>
-        </div>
-        <div class="feature-card fade-in" style="transition-delay:.32s;">
-          <div class="feature-icon">🤝</div>
-          <h3>Remembers Your Journey</h3>
-          <p>Claratyst isn't a one-off chat. It knows your context, your history, your progress — and holds you accountable between sessions.</p>
-        </div>
-        <div class="feature-card fade-in" style="transition-delay:.40s;">
-          <div class="feature-icon">⚡</div>
-          <h3>Multi-Model Intelligence</h3>
-          <p>Powered by the world's best AI minds working together — each contributing its strength — synthesised into one clear, trusted voice.</p>
-        </div>
+  <!-- GRAVEYARD — signature section -->
+  <section class="graveyard" id="graveyard">
+    <div class="graveyard-inner">
+      <div class="eyebrow fade-in">The graveyard</div>
+      <div class="grave-list fade-in" style="transition-delay:.08s;">
+        <div class="grave-row"><span class="grave-mark">—</span><span class="grave-text">The app you sketched on a napkin in 2021.</span></div>
+        <div class="grave-row"><span class="grave-mark">—</span><span class="grave-text">The business plan still saved as "Untitled."</span></div>
+        <div class="grave-row"><span class="grave-mark">—</span><span class="grave-text">The domain you bought and never opened again.</span></div>
+        <div class="grave-row"><span class="grave-mark">—</span><span class="grave-text">The pitch you rehearsed in the shower, and never gave.</span></div>
+        <div class="grave-row"><span class="grave-mark">—</span><span class="grave-text">The "I'll start Monday" that became eleven Mondays.</span></div>
       </div>
+      <p class="grave-close fade-in" style="transition-delay:.14s;">This isn't a eulogy.<br>You are not the fire. <em>You are the oxygen.</em><br>This is where it stops.</p>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <!-- CAPABILITIES -->
+  <section class="section" id="capabilities">
+    <div class="section-head fade-in">
+      <div class="section-title">Not more answers.<br><em>Actual clarity.</em></div>
+      <div class="section-note">Six things Claratyst does differently from a chatbot that just agrees with you.</div>
+    </div>
+    <div class="cap-list">
+      <div class="cap-row fade-in">
+        <div class="cap-tag">DIAGNOSE</div>
+        <div class="cap-body"><h3>Finds the real block</h3><p>Most people aren't stuck on strategy. They're stuck on a fear or a decision they keep avoiding. Claratyst finds it and names it — out loud.</p></div>
+      </div>
+      <div class="cap-row fade-in" style="transition-delay:.05s;">
+        <div class="cap-tag">VALIDATE</div>
+        <div class="cap-body"><h3>Tests the idea honestly</h3><p>A direct read on viability — what works, what doesn't, and why — without the flattery most tools default to.</p></div>
+      </div>
+      <div class="cap-row fade-in" style="transition-delay:.1s;">
+        <div class="cap-tag">STEP</div>
+        <div class="cap-body"><h3>Gives you the next move</h3><p>Not a roadmap. One specific, doable thing for today. Momentum is built one honest step at a time.</p></div>
+      </div>
+      <div class="cap-row fade-in" style="transition-delay:.15s;">
+        <div class="cap-tag">DEPTH</div>
+        <div class="cap-body"><h3>Goes deep when it matters</h3><p>Pricing, positioning, go-to-market — real strategic thinking, in plain language, exactly when you need it.</p></div>
+      </div>
+      <div class="cap-row fade-in" style="transition-delay:.2s;">
+        <div class="cap-tag">MEMORY</div>
+        <div class="cap-body"><h3>Remembers your journey</h3><p>This isn't a one-off chat. Claratyst holds your context and your history, and holds you accountable between sessions.</p></div>
+      </div>
+      <div class="cap-row fade-in" style="transition-delay:.25s;">
+        <div class="cap-tag">VOICE</div>
+        <div class="cap-body"><h3>One clear, trusted voice</h3><p>Built on models chosen for judgment, not just fluency — synthesised into a single, consistent point of view.</p></div>
+      </div>
+    </div>
+  </section>
 
   <!-- WHO -->
-  <section id="who">
-    <div class="section">
-      <div class="section-eyebrow fade-in">Who it's for</div>
-      <div class="section-title fade-in" style="transition-delay:.06s;">Anyone with something<br><span>worth building.</span></div>
-      <div class="who-grid">
-        <div class="who-card fade-in">
-          <div class="who-icon">🏠</div>
-          <div>
-            <h3>The Home Entrepreneur</h3>
-            <p>You've been managing everything quietly — a household, a family, a life. Somewhere in that, an idea has been waiting. Claratyst takes it as seriously as you do.</p>
-            <div class="whisper">"I always thought maybe I could turn this into something."</div>
-          </div>
+  <section class="section" id="who">
+    <div class="section-head fade-in">
+      <div class="section-title">Anyone with something<br><em>worth building.</em></div>
+    </div>
+    <div class="who-list">
+      <div class="who-row fade-in">
+        <div class="who-tag">HOME</div>
+        <div class="who-body">
+          <h3>The home entrepreneur</h3>
+          <p>You've been managing everything quietly — a household, a family, a life. Somewhere in that, an idea has been waiting.</p>
+          <div class="who-quote">"I always thought maybe I could turn this into something."</div>
         </div>
-        <div class="who-card fade-in" style="transition-delay:.08s;">
-          <div class="who-icon">🎓</div>
-          <div>
-            <h3>The First-Time Founder</h3>
-            <p>Young. Ambitious. No network, no roadmap. Everyone says be realistic. Claratyst says be specific — then shows you exactly how to get there.</p>
-            <div class="whisper">"I don't know where to start. But I know I can't not try."</div>
-          </div>
+      </div>
+      <div class="who-row fade-in" style="transition-delay:.05s;">
+        <div class="who-tag">FIRST-TIME</div>
+        <div class="who-body">
+          <h3>The first-time founder</h3>
+          <p>No network, no roadmap, and everyone telling you to be realistic. Claratyst tells you to be specific instead.</p>
+          <div class="who-quote">"I don't know where to start. But I know I can't not try."</div>
         </div>
-        <div class="who-card fade-in" style="transition-delay:.16s;">
-          <div class="who-icon">💼</div>
-          <div>
-            <h3>The Business Professional</h3>
-            <p>You've advised clients for years. You know the frameworks. But your own idea sits in a notebook, untouched. Sometimes the hardest person to consult is yourself.</p>
-            <div class="whisper">"I help everyone else build. When do I build mine?"</div>
-          </div>
+      </div>
+      <div class="who-row fade-in" style="transition-delay:.1s;">
+        <div class="who-tag">PRO</div>
+        <div class="who-body">
+          <h3>The business professional</h3>
+          <p>You've advised clients for years and know every framework by heart. Your own idea still sits untouched in a notebook.</p>
+          <div class="who-quote">"I help everyone else build. When do I build mine?"</div>
         </div>
-        <div class="who-card fade-in" style="transition-delay:.24s;">
-          <div class="who-icon">🏢</div>
-          <div>
-            <h3>The Growing Organisation</h3>
-            <p>Strategic decisions at scale carry weight. Claratyst gives your team a sharp, unbiased thinking partner — for new ventures, pivots, or decisions that keep stalling.</p>
-            <div class="whisper">"We need clarity, not more meetings."</div>
-          </div>
+      </div>
+      <div class="who-row fade-in" style="transition-delay:.15s;">
+        <div class="who-tag">TEAM</div>
+        <div class="who-body">
+          <h3>The growing organisation</h3>
+          <p>Strategic calls at scale carry weight. Claratyst gives your team a sharp, unbiased thinking partner for decisions that keep stalling.</p>
+          <div class="who-quote">"We need clarity, not more meetings."</div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
   <!-- CHAT -->
-  <section id="chat" class="chat-section" style="padding-top:70px;">
-    <div class="section-eyebrow fade-in">Try it now</div>
-    <div class="section-title fade-in" style="transition-delay:.06s;margin-bottom:28px;">Say what's on your mind.<br><span>Claratyst handles the rest.</span></div>
+  <section class="section chat-section" id="chat">
+    <div class="section-head fade-in">
+      <div class="section-title">Say what's on your mind.<br><em>Claratyst handles the rest.</em></div>
+    </div>
     <div class="chat-layout">
-      <div class="chat-panel fade-in" style="transition-delay:.12s;">
+      <div class="chat-panel fade-in">
         <div class="chat-header">
           <div class="chat-avatar">C</div>
           <div>
-            <div class="chat-header-name">Claratyst</div>
-            <div class="chat-status"><div class="status-dot"></div>Online · No judgement here</div>
+            <div class="chat-header-name">CLARATYST</div>
+            <div class="chat-status"><div class="status-dot"></div>ONLINE · NO JUDGEMENT</div>
           </div>
         </div>
         <div class="chatbox" id="chatbox" role="log" aria-live="polite">
@@ -351,26 +411,22 @@
         </div>
       </div>
 
-      <aside class="chat-sidebar fade-in" style="transition-delay:.2s;">
+      <aside class="chat-sidebar fade-in" style="transition-delay:.08s;">
         <div class="sidebar-card">
-          <div class="sidebar-title">⚡ Quick Starters</div>
+          <div class="sidebar-title">Quick Starters</div>
           <div class="quick-prompts">
             <button class="qp-btn" onclick="quickPrompt(this)">I have an idea I've never told anyone</button>
             <button class="qp-btn" onclick="quickPrompt(this)">I keep starting things and stopping</button>
-            <button class="qp-btn" onclick="quickPrompt(this)">I need to make a big business decision</button>
+            <button class="qp-btn" onclick="quickPrompt(this)">I need to make a big decision</button>
             <button class="qp-btn" onclick="quickPrompt(this)">Validate my idea — honestly</button>
             <button class="qp-btn" onclick="quickPrompt(this)">I don't know where to start</button>
           </div>
         </div>
         <div class="sidebar-card">
-          <div class="sidebar-title">📊 Session</div>
-          <div class="stat-row"><span class="stat-label">Messages</span><span class="stat-value" id="msg-count">0</span></div>
-          <div class="stat-row"><span class="stat-label">Ideas explored</span><span class="stat-value" id="idea-count">0</span></div>
-          <div class="stat-row"><span class="stat-label">Status</span><span class="stat-value">Active</span></div>
-        </div>
-        <div class="sidebar-card">
-          <div class="sidebar-title">🔮 Coming Soon</div>
-          <p style="font-size:12.5px;color:var(--muted);line-height:1.65;">Persistent memory. Multi-model deep analysis. Team workspaces. Accountability check-ins. <span style="color:var(--cyan);">Claratyst is just beginning.</span></p>
+          <div class="sidebar-title">Session</div>
+          <div class="stat-row"><span class="stat-label">MESSAGES</span><span class="stat-value" id="msg-count">0</span></div>
+          <div class="stat-row"><span class="stat-label">IDEAS</span><span class="stat-value" id="idea-count">0</span></div>
+          <div class="stat-row"><span class="stat-label">STATUS</span><span class="stat-value">ACTIVE</span></div>
         </div>
       </aside>
     </div>
@@ -379,15 +435,14 @@
   <!-- CLOSING -->
   <div class="divider"></div>
   <div class="closing fade-in">
-    <div class="closing-text">The world changes when people who care<br><span class="grad">finally decide to act.</span></div>
-    <p class="closing-sub">You've been thinking about this long enough.<br>Claratyst is here when you're ready to move.</p>
-    <button class="btn btn-primary" style="font-size:15px;padding:14px 28px;" onclick="scrollToChat()">Find Your Clarity →</button>
+    <div class="closing-text">The world changes when people who care<br><em>finally decide to act.</em></div>
+    <p class="closing-sub">You've been thinking about this long enough. Claratyst is here when you're ready to move.</p>
+    <button class="btn btn-primary" onclick="scrollToChat()">Find Your Clarity →</button>
   </div>
-  <div class="divider" style="margin-top:60px;"></div>
 
   <footer>
-    <div>© <span id="year"></span> Claratyst · Clarity for every person with something worth building.</div>
-    <div style="display:flex;gap:20px;"><a href="#">Privacy</a><a href="#">Contact</a></div>
+    <div>© <span id="year"></span> CLARATYST — CLARITY FOR EVERY PERSON WITH SOMETHING WORTH BUILDING</div>
+    <div class="footer-links"><a href="#">PRIVACY</a><a href="#">CONTACT</a></div>
   </footer>
 </div>
 
@@ -436,21 +491,6 @@
 
   const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('show');});},{threshold:0.1});
   document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
-
-  const canvas=document.getElementById('particles');
-  const ctx=canvas.getContext('2d');
-  let W=canvas.width=innerWidth,H=canvas.height=innerHeight;
-  window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight;});
-  const COUNT=Math.max(50,Math.floor(W*H/100000));
-  class Dot{
-    constructor(){this.init();}
-    init(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=1+Math.random()*2;this.vx=(Math.random()-.5)*.3;this.vy=Math.random()*.4-.05;this.a=.05+Math.random()*.13;this.col=Math.random()>.55?'0,229,255':'139,92,246';this.life=180+Math.random()*220;this.age=0;}
-    tick(){this.x+=this.vx;this.y+=this.vy;this.age++;if(this.x<-20||this.x>W+20||this.y<-20||this.y>H+20||this.age>this.life)this.init();}
-    draw(){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*7);g.addColorStop(0,`rgba(${this.col},${this.a})`);g.addColorStop(1,`rgba(${this.col},0)`);ctx.beginPath();ctx.arc(this.x,this.y,this.r*7,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
-  }
-  const pts=[];for(let i=0;i<COUNT;i++)pts.push(new Dot());
-  (function loop(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.tick();p.draw();});requestAnimationFrame(loop);})();
-  addEventListener('mousemove',e=>{const mx=(e.clientX-W/2)*.014,my=(e.clientY-H/2)*.014;canvas.style.transform=`translate3d(${mx}px,${my}px,0)`;});
 </script>
 </body>
 </html>
