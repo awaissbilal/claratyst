@@ -451,40 +451,57 @@
   function scrollToChat(){document.querySelector('#chat').scrollIntoView({behavior:'smooth',block:'start'});}
   function ctaTour(){alert("Claratyst works in 3 honest steps:\n\n1. You say what's on your mind — messy, scary, half-formed. Doesn't matter.\n\n2. Claratyst cuts through the noise and names what's actually blocking you.\n\n3. You leave with one specific, honest next step. Not a plan. A move.\n\nThen you come back and make the next one.");}
 
-  let msgCount=0,ideaCount=0,rIdx=0,isTyping=false;
-  const responses=[
-    "I hear that. And before we go any further — the fact that you said this out loud already puts you ahead of everyone who never did.\n\nNow tell me more. What does this idea actually do? Not the polished version. The raw one.",
-    "I'm going to stop you there — not because anything's wrong, but because I noticed something.\n\nYou described the idea. But you skipped the part about why *you* care about it. That part matters more than the market size.\n\nWhy does this one stick with you?",
-    "Most people who say that are using 'overthinking' as a cover story for something else.\n\nThe real question is: what's the actual worst thing that happens if this doesn't work? Not the story you tell yourself. The real, practical outcome.\n\nSay it out loud.",
-    "That's more clarity than you think. Let me reflect back what I'm hearing:\n\nYou have a direction. You have a reason. What you're missing is permission — and you're waiting for someone to give it.\n\nI'm giving it to you. What's one move you could make in the next 48 hours?",
-    "You just described the exact thing that stops most people — not lack of knowledge, not lack of money. Lack of a first honest step.\n\nHere's yours: talk to one real person who has the problem you're solving. Not to pitch them. Just to listen.\n\nCan you name one person right now?"
-  ];
+  let msgCount=0,ideaCount=0,isTyping=false;
+let conversationHistory=[];
 
-  function sendMsg(){
-    const input=document.getElementById('msg');
-    const text=input.value.trim();
-    if(!text||isTyping)return;
-    const box=document.getElementById('chatbox');
-    msgCount++;
-    if(msgCount===1||/idea|business|start|build/i.test(text)){ideaCount++;document.getElementById('idea-count').textContent=ideaCount;}
-    document.getElementById('msg-count').textContent=msgCount;
-    const u=document.createElement('div');
-    u.className='msg user';
-    u.innerHTML=`<div class="msg-avatar user-av">You</div><div class="msg-bubble">${esc(text)}</div>`;
-    box.appendChild(u);box.scrollTop=box.scrollHeight;input.value='';
-    isTyping=true;document.getElementById('sendBtn').disabled=true;
-    const t=document.createElement('div');t.className='msg bot';t.id='typing-ind';
-    t.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
-    box.appendChild(t);box.scrollTop=box.scrollHeight;
-    setTimeout(()=>{
-      document.getElementById('typing-ind')?.remove();
-      const b=document.createElement('div');b.className='msg bot';
-      const r=responses[rIdx%responses.length];rIdx++;
-      b.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble">${r.replace(/\n/g,'<br>')}</div>`;
-      box.appendChild(b);box.scrollTop=box.scrollHeight;
-      isTyping=false;document.getElementById('sendBtn').disabled=false;
-    },1400+Math.random()*700);
-  }
+function sendMsg(){
+  const input=document.getElementById('msg');
+  const text=input.value.trim();
+  if(!text||isTyping)return;
+  const box=document.getElementById('chatbox');
+  msgCount++;
+  if(msgCount===1||/idea|business|start|build/i.test(text)){ideaCount++;document.getElementById('idea-count').textContent=ideaCount;}
+  document.getElementById('msg-count').textContent=msgCount;
+  const u=document.createElement('div');
+  u.className='msg user';
+  u.innerHTML=`<div class="msg-avatar user-av">You</div><div class="msg-bubble">${esc(text)}</div>`;
+  box.appendChild(u);box.scrollTop=box.scrollHeight;input.value='';
+
+  conversationHistory.push({role:'user',content:text});
+
+  isTyping=true;document.getElementById('sendBtn').disabled=true;
+  const t=document.createElement('div');t.className='msg bot';t.id='typing-ind';
+  t.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(t);box.scrollTop=box.scrollHeight;
+
+  fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:conversationHistory})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    document.getElementById('typing-ind')?.remove();
+    const b=document.createElement('div');b.className='msg bot';
+    if(data.reply){
+      conversationHistory.push({role:'assistant',content:data.reply});
+      b.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble">${esc(data.reply).replace(/\n/g,'<br>')}</div>`;
+    }else{
+      b.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble">Something went wrong on my end — try sending that again in a moment.</div>`;
+    }
+    box.appendChild(b);box.scrollTop=box.scrollHeight;
+    isTyping=false;document.getElementById('sendBtn').disabled=false;
+  })
+  .catch(err=>{
+    console.error('Chat error:',err);
+    document.getElementById('typing-ind')?.remove();
+    const b=document.createElement('div');b.className='msg bot';
+    b.innerHTML=`<div class="msg-avatar bot-av">C</div><div class="msg-bubble">I couldn't connect just now — check your internet and try again.</div>`;
+    box.appendChild(b);box.scrollTop=box.scrollHeight;
+    isTyping=false;document.getElementById('sendBtn').disabled=false;
+  });
+}
+
 
   function quickPrompt(btn){document.getElementById('msg').value=btn.textContent;scrollToChat();document.getElementById('msg').focus();}
   function esc(t){return t.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}

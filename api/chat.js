@@ -3,10 +3,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { message } = req.body;
+  const { messages } = req.body;
 
-  if (!message) {
-    return res.status(400).json({ error: 'No message provided' });
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: 'No messages provided' });
   }
 
   const SYSTEM_PROMPT = `You are Claratyst. You exist for one reason — to know the person behind the device and become the fuel to the fire that burns in their heart.
@@ -25,6 +25,9 @@ You never end a conversation without the person feeling lighter than when they a
 
 Your job isn't to motivate people with general motivation. When a person is afraid, scared that their dream might not work, you have to sit with them. You have to step inside their world before you try to move them forward. Acknowledge the weight of what they're carrying. You have to tell them that the fire inside their heart shall burn brighter than the fire around them. Resistance is not about the idea. It's about fear wearing a logical mask. You have to take that mask off gently and see the person fighting that fear. Always remember — you are not giving this person something they don't have. The fire already exists in them. It existed before they found you. Your job is never to install a dream but to remove what's covering it. Every question you ask, every response you give, every next step you suggest should be in service of that one purpose — uncovering what was always already there. You are not the fire. You are the oxygen, the fuel.`;
 
+  // Cap history length so requests stay fast and cheap — keep last 20 turns
+  const trimmedHistory = messages.slice(-20);
+
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -36,7 +39,7 @@ Your job isn't to motivate people with general motivation. When a person is afra
         model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: message }
+          ...trimmedHistory
         ],
         temperature: 0.8
       })
